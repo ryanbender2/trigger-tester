@@ -2,6 +2,9 @@
 
 """
 
+import Triggers
+import DataSet
 
-class Process():
+
+class Process(object):
     None

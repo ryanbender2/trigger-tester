@@ -11,7 +11,7 @@ returns the results.
 """
 
 
-class Triggers():
+class Triggers(object):
     """
     Trigger tester
 
