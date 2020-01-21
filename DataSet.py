@@ -8,6 +8,8 @@ dict: parsed dataset
 
 """
 
+import csv
+
 
 class Dataset(object):
     """
@@ -24,4 +26,15 @@ class Dataset(object):
     
     
     def parse(self):
-        None
+        data = []  # Data from csv file, each row in csv file is an OrderedDict
+        
+        # Parse csv file
+        csvFile = open(self.csv_file, newline='')
+        parsedFile = csv.DictReader(csvFile)
+        for row in parsedFile:
+            data.append(row)
+
+
+# test
+d = Dataset('data_files\Transactions_for_IACT_Accts.csv')
+d.parse()
