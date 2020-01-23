@@ -9,8 +9,5 @@ test = DataSet.DataSet('data_files/test.csv')
 
 rdmIndex = random.randint(1, 9000)
 
-print('==========')
-print('test.printRecord(rdmIndex)')
-print('Random record pulled: record #' + str(rdmIndex) + '\n')
+print('\ntest.printRecord(' + str(rdmIndex) + ')\n')
 print(test.printRecord(rdmIndex))
-print('\n==========')
