@@ -96,6 +96,8 @@ class DataSet(object):
         """
         if len(self.data) == 0:
             return '[printRecord] Error: no records in dataset'
+        if index >= len(self.data):
+            return '[printRecord] IndexError: there are only ' + str(len(self.data)) + ' records in the dataset'
 
         string = ''
         contents = ''
@@ -107,6 +109,9 @@ class DataSet(object):
         horizLineLen = 7 + longestCat + longestVal
         line = '-' * horizLineLen
 
+        if index == (len(self.data) - 1):
+            recordNum = '\nRecord Number ' + str(index) + ' (final)\n'
+            
         for i in range(len(values)):
             spacesCat = ' ' * (longestCat - len(categories[i]) + 1)
             spacesVal = ' ' * (longestVal - len(values[i]) + 1)
