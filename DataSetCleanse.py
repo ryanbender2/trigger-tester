@@ -1,8 +1,21 @@
+"""Collection of methods for DataSet Work.
+
+Returns:
+    None
+"""
+
 from csv import reader
 
 
 def load_csv(filename):
-    """Load CSV File."""
+    """Load CSV File.
+    
+    Arguments:
+        filename {str} -- path to csv file.
+    
+    Returns:
+        {list} -- csv file.
+    """
     dataset = list()
     with open(filename, 'r') as file:
         csv_reader = reader(file)
@@ -14,13 +27,26 @@ def load_csv(filename):
 
 
 def str_column_to_float(dataset, column):
-    """Convert string column to float."""
+    """Convert string column to float.
+    
+    Arguments:
+        dataset {list} -- Parsed dataset.
+        column {int} -- Index of column to convert.
+    """
     for row in dataset:
         row[column] = float(row[column].strip())
 
 
 def str_column_to_int(dataset, column):
-    """Convert string column to integer."""
+    """Convert string column to integer.
+    
+    Arguments:
+        dataset {list} -- Parsed dataset.
+        column {int} -- Index of column to convert.
+    
+    Returns:
+        {dict} -- Converted values with keys.
+    """
     class_values = [row[column] for row in dataset]
     unique = set(class_values)
     lookup = dict()
@@ -32,12 +58,28 @@ def str_column_to_int(dataset, column):
 
 
 def write_csv(dataset, filename):
-    """Write CSV."""
+    """Write CSV.
+    
+    Arguments:
+        dataset {list} -- list formatted for csv output.
+        filename {str} -- File path for csv out.
+    """
     with open(filename, 'w') as file:
         for line in dataset:
             file.write(','.join(line) + '\n')
-            
-def __acc_status__(transaction):
+
+   
+def __acc_status__(transaction: list):
+    """Convert account statuses to numaric description.
+    
+    Arguments:
+        transaction {list} -- One row (transaction) in dataset.
+    
+    Returns:
+        {tuple} -- Account number, account status code.
+    """
+    if type(transaction) != list:
+        raise TypeError('Type must be list')
     if transaction[-1] in ['APPR', 'DORM', 'NPFM',
                            'IACT', 'CLS', 'CO', 'CWB']:
         acc_sts = (transaction[0], '1')
@@ -56,7 +98,7 @@ second_dataset = 'data_files/second_dataset.csv'
 # csv2 = load_csv(new_dataset)
 # titles2 = csv2[0]
 # data2 = csv2[1:]
-
+print(__acc_status__(10))
 # # Account Number
 # account_nums = [i[0] for i in data]
 # unique_account_nums = list(set(account_nums))
