@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "c:\\Users\\ryanb\\Documents\\GitHub\\trigger-tester\\venv\\Scripts\\python.exe"
+    "python.pythonPath": "c:\\Users\\ryanb\\Documents\\GitHub\\trigger-tester\\venv\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pydocstyleEnabled": true,
+    "python.linting.enabled": true,
+    "git.ignoreLimitWarning": true
 }

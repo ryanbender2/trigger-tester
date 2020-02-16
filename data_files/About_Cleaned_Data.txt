@@ -1,0 +1,11 @@
+_______________________________________________________________
+Info about data_files\Cleaned_DataSet_ML_Ready.csv
+This Dataset has been formatted for Linear Regression algorithm
+_______________________________________________________________
+
+Dates transactions were recorded between: Nov 1 - Nov 19
+Total days recorded: 18
+
+Account Status Key:
+    0: Active
+    1: Closed
