@@ -98,7 +98,7 @@ second_dataset = 'data_files/second_dataset.csv'
 # csv2 = load_csv(new_dataset)
 # titles2 = csv2[0]
 # data2 = csv2[1:]
-print(__acc_status__(10))
+
 # # Account Number
 # account_nums = [i[0] for i in data]
 # unique_account_nums = list(set(account_nums))
