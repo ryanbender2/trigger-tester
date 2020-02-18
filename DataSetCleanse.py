@@ -80,7 +80,7 @@ def __acc_status__(transaction: list):
     """
     if type(transaction) != list:
         raise TypeError('Type must be list')
-    if transaction[-1] in ['APPR', 'DORM', 'NPFM',
+    if transaction[1] in ['APPR', 'DORM', 'NPFM',
                            'IACT', 'CLS', 'CO', 'CWB']:
         acc_sts = (transaction[0], '1')
         return acc_sts
@@ -88,13 +88,14 @@ def __acc_status__(transaction: list):
     return acc_sts
 
 
-
-dataset_path = 'data_files\Transactions_for_IACT_Accts.csv'
+dataset_path = 'data_files\second_dataset.csv'
 new_dataset = 'data_files/new_dataset.csv'
-second_dataset = 'data_files/second_dataset.csv'
-# csv1 = load_csv(dataset_path)
-# titles1 = csv1[0]
-# data1 = csv1[1:]
+second_dataset = 'data_files/third_dataset.csv'
+
+csv1 = load_csv(dataset_path)
+titles = csv1[0]
+data = csv1
+
 
 # csv2 = load_csv(new_dataset)
 # titles2 = csv2[0]
@@ -103,16 +104,19 @@ second_dataset = 'data_files/second_dataset.csv'
 # # Account Number
 # account_nums = [i[0] for i in data]
 # unique_account_nums = list(set(account_nums))
-# account_num_count = list(map(lambda x: [x, account_nums.count(x)], unique_account_nums))
+# account_num_count = dict(map(lambda x: [x, account_nums.count(x)], unique_account_nums))
 
 # # Account Status
-# full_data = list()
-# account_statuses = dict(map(__acc_status__, data1))
-# trans_amounts = dict(data2)
+full_data = list()
 
-# totals_keys = trans_amounts.keys()
+for trans in data:
+    if trans[1] == '0':
+        full_data.append([trans[0], '1'])
+    else:
+        full_data.append([trans[0], '0'])
+# account_statuses = dict(map(__acc_status__, data))
 
-# for account in totals_keys:
-#     full_data.append([account, trans_amounts[account], account_statuses[account]])
+# for acc in unique_account_nums:
+#     full_data.append([str(account_num_count[acc]), account_statuses[acc]])
 
-# write_csv(full_data, second_dataset)
+write_csv(full_data, second_dataset)

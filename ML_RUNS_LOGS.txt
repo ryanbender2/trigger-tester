@@ -1,0 +1,18 @@
+SVC:
+0.8252113376429637 - accuracy_score
+
+[[26542     7] - confusion_matrix
+ [ 5617    10]]
+
+classification_report
+              precision    recall  f1-score   support
+
+           0  0.8253366 0.9997363 0.9042039     26549
+           1  0.5882353 0.0017771 0.0035436      5627
+
+    accuracy                      0.8252113     32176
+   macro avg  0.7067860 0.5007567 0.4538737     32176
+weighted avg  0.7838719 0.8252113 0.7466947     32176
+
+f1_score
+0.7466946774585811

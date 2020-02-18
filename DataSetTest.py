@@ -5,7 +5,7 @@
 import random
 import DataSet
 
-test = DataSet.DataSet('data_files/test.csv')
+test = DataSet.DataSet('data_files\Liberty_Transactions_Feb_15.csv')
 
 rdmIndex = random.randint(1, 9000)
 
