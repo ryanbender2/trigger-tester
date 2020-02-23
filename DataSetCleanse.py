@@ -88,13 +88,13 @@ def __acc_status__(transaction: list):
     return acc_sts
 
 
-dataset_path = 'data_files\second_dataset.csv'
+dataset_path = 'C:/users/ryan/Desktop/Liberty_Transaction_Analysis_3.csv'
 new_dataset = 'data_files/new_dataset.csv'
-second_dataset = 'data_files/third_dataset.csv'
+
 
 csv1 = load_csv(dataset_path)
 titles = csv1[0]
-data = csv1
+data = csv1[1:]
 
 
 # csv2 = load_csv(new_dataset)
@@ -107,16 +107,16 @@ data = csv1
 # account_num_count = dict(map(lambda x: [x, account_nums.count(x)], unique_account_nums))
 
 # # Account Status
-full_data = list()
+# full_data = list()
 
-for trans in data:
-    if trans[1] == '0':
-        full_data.append([trans[0], '1'])
-    else:
-        full_data.append([trans[0], '0'])
+# for trans in data:
+#     if trans[1] == '0':
+#         full_data.append([trans[0], '1'])
+#     else:
+#         full_data.append([trans[0], '0'])
 # account_statuses = dict(map(__acc_status__, data))
 
 # for acc in unique_account_nums:
 #     full_data.append([str(account_num_count[acc]), account_statuses[acc]])
 
-write_csv(full_data, second_dataset)
+# write_csv(full_data, second_dataset)

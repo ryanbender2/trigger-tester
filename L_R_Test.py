@@ -32,6 +32,7 @@ y = array[:, 1]
 X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
 
 # Make predictions on validation dataset
+# model = SVC(gamma='auto')
 model = LogisticRegression()
 model.fit(X_train, Y_train)
 predictions = model.predict(X_validation)
@@ -46,10 +47,8 @@ xlabel = 'Total Transactions'
 ylabel = 'Account Status'
 plt.xlabel(xlabel)
 plt.ylabel(ylabel)
-plt.grid(color='k', linestyle=':', linewidth=1)
-plt.plot(X_validation, Y_validation, 'xb')
+plt.plot(X_validation, Y_validation, color='red')
 plt.show()
-
 
 # for i in range(len(X_validation)):
 #     print("X=%s, Predicted=%s" % (X_validation[i], predictions[i]))

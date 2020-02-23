@@ -74,13 +74,13 @@ class Application(tk.Frame):
         dataset = self.u_in_filepath.get()
 
         try:
-            self.csv_file = load_csv(dataset)
+            csv_file = load_csv(dataset)
         except Exception:
             self.csv_err1.pack()
             sleep(3)
             self.csv_err1.pack_forget()
         
-        if self.csv_file is not None:
+        if csv_file is not None:
             self.csv_success.pack()
             sleep(3)
             self.csv_success.pack_forget()
