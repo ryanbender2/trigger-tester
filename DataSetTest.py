@@ -2,12 +2,12 @@
   Testing module for the DataSet class.
 """
 
+from DataSetCleanse import DataSetCleanse
+from DataSetCleanse import write_csv
 import random
 import DataSet
 
-test = DataSet.DataSet('data_files\Liberty_Transactions_Feb_15.csv')
+test = DataSetCleanse('data_files/test.csv')
 
-rdmIndex = random.randint(1, 9000)
-
-print('\ntest.printRecord(' + str(rdmIndex) + ')\n')
-print(test.printRecord(10005))
+f = test.getColumn('ï»¿Account Nbr', title=True)
+print(f[:20])
