@@ -7,7 +7,11 @@ from DataSetCleanse import write_csv
 import random
 import DataSet
 
+titles = ['Account Nbr', 'Transaction Nbr', 'Transaction Effective Dt', 'Transaction Source Cd', 'Transaction Source Desc',
+          'Transaction Type Cd', 'Transaction Type Desc', 'Transaction Amt', 'Balance After Tran Amt', 'Account Status Cd']
 test = DataSetCleanse('data_files/test.csv')
+test.setTitles(titles)
 
-f = test.encoded_account_statuses()
-g = test.num_transactions_of_each_account(title_of_acc_nbr='ï»¿Account Nbr')
+print(str(test.getColumn('Transaction Amt')[:20]) + '\nconverted\n')
+d = test.str_column_to_int('Account Status Cd')
+print(d)
