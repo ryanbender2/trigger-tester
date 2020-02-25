@@ -38,7 +38,10 @@ class DataSetCleanse(object):
         return dataset
 
 
-    def __acc_status__(self, transaction, flip_encoding=False):
+    def __acc_status__(self, transaction, 
+                       flip_encoding, 
+                       a_n_idx,
+                       a_stat_idx):
         """Convert account statuses to numaric description.
         
         Arguments:
@@ -52,13 +55,11 @@ class DataSetCleanse(object):
         if flip_encoding:
             closed_s = '0'
             open_s = '1'
-        if type(transaction) != list:
-            raise TypeError('Type must be list')
-        if transaction[1] in ['APPR', 'DORM', 'NPFM',
+        if transaction[a_stat_idx] in ['APPR', 'DORM', 'NPFM',
                             'IACT', 'CLS', 'CO', 'CWB']:
-            acc_sts = (transaction[0], closed_s)
+            acc_sts = (transaction[a_n_idx], closed_s)
             return acc_sts
-        acc_sts = (transaction[0], open_s)
+        acc_sts = (transaction[a_n_idx], open_s)
         return acc_sts
 
 
@@ -172,18 +173,20 @@ class DataSetCleanse(object):
         return account_num_count
     
     
-    def encoded_account_statuses(self, flip_encoding=False):
-        """[summary]
+    def encoded_account_statuses(self, flip_encoding=False, account_num_index=0, account_status_index=-1):
+        """Encode account statuses.
         
         Keyword Arguments:
-            flip_encoding {bool} -- [description] (default: {False})
+            flip_encoding {bool} -- Flips encoding (default: {False})
+            account_num_index {int} -- Index of account number column (default: {0})
+            account_status_index {int} --  Index of account status column (default: {-1})
         
         Returns:
-            statuses {dict} -- [description]
+            statuses {dict} -- Keys = Account numbers, Values = Account statuses
         """
         statuses = dict()
         for trans in self.dataset:
-            info = self.__acc_status__(trans, flip_encoding=flip_encoding)
+            info = self.__acc_status__(trans, flip_encoding, account_num_index, account_status_index)
             statuses[info[0]] = info[1]
         return statuses
 

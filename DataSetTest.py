@@ -9,5 +9,5 @@ import DataSet
 
 test = DataSetCleanse('data_files/test.csv')
 
-f = test.num_transactions_of_each_account()
-print(str(list(f.values())[:20]))
+f = test.encoded_account_statuses()
+g = test.num_transactions_of_each_account(title_of_acc_nbr='ï»¿Account Nbr')
