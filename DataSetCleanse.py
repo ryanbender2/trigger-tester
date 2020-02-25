@@ -4,6 +4,7 @@ Also includes funtion for writing csv out.
 """
 
 import pandas as pd
+import random
 
 class DataSetCleanse(object):
     """DataSet Work.
@@ -207,6 +208,39 @@ class DataSetCleanse(object):
             info = self.__acc_status__(trans, flip_encoding, acc_num_idx, acc_stat_idx, closed_account_statuses)
             statuses[info[0]] = info[1]
         return statuses
+    
+
+    def print_example_record(self, index_to_print='random'):
+        """Preview of dataset.
+        
+        Keyword Arguments:
+            index_to_print {int} -- Row to preview. (default: {random})
+        """
+        if index_to_print == 'random':
+            index = random.randint(1, len(self.__dataset))
+        else:
+            index = index_to_print
+        string = ''
+        contents = ''
+        categories = self.__titles
+        values = self.__dataset[index]
+        longestCat = max([len(i) for i in categories])
+        longestVal = max([len(str(i)) for i in values])
+        recordNum = '\nRecord Number ' + str(index) + '\n'
+        horizLineLen = 7 + longestCat + longestVal
+        line = '-' * horizLineLen
+            
+        for i in range(len(values)):
+            spacesCat = ' ' * (longestCat - len(categories[i]) + 1)
+            spacesVal = ' ' * (longestVal - len(values[i]) + 1)
+            SB = '| ' + categories[i] + spacesCat + '| ' + values[i] + spacesVal + '|\n' + line + '\n'
+            contents += SB
+
+        string += recordNum
+        string += line + '\n'
+        string += contents
+
+        print(string)
 
 
 def write_csv(dataset, filename, **args):

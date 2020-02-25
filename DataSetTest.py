@@ -13,6 +13,4 @@ test = DataSetCleanse('C:/Users/ryan/Desktop/CSIS 484/Liberty_Transaction_Analys
 end_t = process_time()
 print('run time was {0} seconds.'.format(str(float(end_t - start_t))) + '\n\n')
 
-g = test.getDataSet()
-for i in range(5):
-    print(str(g[i]))
+test.print_example_record()

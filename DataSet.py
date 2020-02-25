@@ -30,11 +30,6 @@ class DataSet(object):
         for row in parsedFile:
             strippedRow = OrderedDict(row)  # Cleaned keys
             keys = row.keys()
-            for i in keys:  # runs over all keys to strip
-                strippedStr = i.strip('ï»¿')
-                value = row.get(i)
-                strippedRow.pop(i)
-                strippedRow[strippedStr] = value
             data.append(strippedRow)
 
         return data
@@ -103,6 +98,7 @@ class DataSet(object):
         contents = ''
         categories = self.getCategories()
         values = list(self.data[index].values())
+        print(values)
         longestCat = max([len(i) for i in categories])
         longestVal = max([len(i) for i in values])
         recordNum = '\nRecord Number ' + str(index) + '\n'
