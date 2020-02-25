@@ -38,7 +38,7 @@ class DataSetCleanse(object):
         return dataset
 
 
-    def __acc_status__(self, transaction):
+    def __acc_status__(self, transaction, flip_encoding=False):
         """Convert account statuses to numaric description.
         
         Arguments:
@@ -47,13 +47,18 @@ class DataSetCleanse(object):
         Returns:
             {tuple} -- Account number, account status code.
         """
+        closed_s = '1'
+        open_s = '0'
+        if flip_encoding:
+            closed_s = '0'
+            open_s = '1'
         if type(transaction) != list:
             raise TypeError('Type must be list')
         if transaction[1] in ['APPR', 'DORM', 'NPFM',
                             'IACT', 'CLS', 'CO', 'CWB']:
-            acc_sts = (transaction[0], '1')
+            acc_sts = (transaction[0], closed_s)
             return acc_sts
-        acc_sts = (transaction[0], '0')
+        acc_sts = (transaction[0], open_s)
         return acc_sts
 
 
@@ -165,9 +170,25 @@ class DataSetCleanse(object):
         unique_account_nums = list(set(account_nums))
         account_num_count = dict(map(lambda x: [x, account_nums.count(x)], unique_account_nums))
         return account_num_count
+    
+    
+    def encoded_account_statuses(self, flip_encoding=False):
+        """[summary]
+        
+        Keyword Arguments:
+            flip_encoding {bool} -- [description] (default: {False})
+        
+        Returns:
+            statuses {dict} -- [description]
+        """
+        statuses = dict()
+        for trans in self.dataset:
+            info = self.__acc_status__(trans, flip_encoding=flip_encoding)
+            statuses[info[0]] = info[1]
+        return statuses
 
 
-def write_csv(dataset, filename):
+def write_csv(dataset, filename, **args):
     """Write CSV.
     
     Arguments:

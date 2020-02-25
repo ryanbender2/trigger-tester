@@ -9,5 +9,5 @@ import DataSet
 
 test = DataSetCleanse('data_files/test.csv')
 
-f = test.getColumn('ï»¿Account Nbr', title=True)
-print(f[:20])
+f = test.num_transactions_of_each_account()
+print(str(list(f.values())[:20]))
