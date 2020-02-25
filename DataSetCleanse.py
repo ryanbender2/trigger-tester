@@ -3,7 +3,7 @@
 Also includes funtion for writing csv out.
 """
 
-from csv import reader
+import pandas as pd
 
 class DataSetCleanse(object):
     """DataSet Work.
@@ -28,13 +28,9 @@ class DataSetCleanse(object):
         Returns:
             {list} -- csv file.
         """
-        dataset = list()
-        with open(filename, 'r') as file:
-            csv_reader = reader(file)
-            for row in csv_reader:
-                if not row:
-                    continue
-                dataset.append(row)
+        df = pd.read_csv(filename, dtype=str)
+        dataset = [list(row) for row in df.values]
+        dataset.insert(0, [i for i in df.columns])
         return dataset
 
 
@@ -122,16 +118,14 @@ class DataSetCleanse(object):
         Get dataset of csv as list.
         
         Keyword Arguments:
-            column_titles {bool} -- Default true, set to false to not
-                                    include titles at top of dataset. (default: {True})
+            column_titles {bool} -- Set to false to not include titles at top of dataset. (default: {True})
         
         Returns:
             datset {list} -- 2D list of dataset.
         """
         if column_titles:
-            data = list()
-            data.append(self.__titles)
-            data.append(self.__dataset)
+            data = list(self.__dataset)
+            data.insert(0, self.__titles)
             return data
         return self.__dataset
 
@@ -176,7 +170,7 @@ class DataSetCleanse(object):
         """Count of the number of transactions each account has.
         
         Keyword Arguments:
-            title_of_acc_nbr {str} -- Title of column holding account numbers (default: {'Account Nbr'})
+            title_of_acc_nbr {str} -- Title of column holding account numbers (default: {Account Nbr})
         
         Returns:
             Counts {dict} -- Dict with Keys = Account Number and Values = Amount of Transactions

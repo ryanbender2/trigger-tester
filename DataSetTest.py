@@ -6,12 +6,13 @@ from DataSetCleanse import DataSetCleanse
 from DataSetCleanse import write_csv
 import random
 import DataSet
+from time import process_time
 
-titles = ['Account Nbr', 'Transaction Nbr', 'Transaction Effective Dt', 'Transaction Source Cd', 'Transaction Source Desc',
-          'Transaction Type Cd', 'Transaction Type Desc', 'Transaction Amt', 'Balance After Tran Amt', 'Account Status Cd']
-test = DataSetCleanse('data_files/test.csv')
-test.setTitles(titles)
+start_t = process_time()
+test = DataSetCleanse('C:/Users/ryan/Desktop/CSIS 484/Liberty_Transaction_Analysis_3.csv')
+end_t = process_time()
+print('run time was {0} seconds.'.format(str(float(end_t - start_t))) + '\n\n')
 
-print(str(test.getColumn('Transaction Amt')[:20]) + '\nconverted\n')
-d = test.str_column_to_int('Account Status Cd')
-print(d)
+g = test.getDataSet()
+for i in range(5):
+    print(str(g[i]))
