@@ -243,28 +243,39 @@ class DataSetCleanse(object):
         print(string)
 
 
-def write_csv(*args, new_filename='default'):
+def write_csv(IDs, col_titles, *args, **kwargs):
     """Write CSV out.
     
-    How it works: Pass in 1D lists to be written to file. Each list passed in is considered
-      a new column. Pass in each list in the order desired. The first element
-      in the list is considered the column title.
-      An example call would look like this: write_csv(list1, list2, list3, new_filename='example.csv')
+    How it works: Lists of unique identifiers and column titles are passed in along with dictionaries of each column.
+      All dictionary keys should be in IDs.
+      An example call would look like this: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, new_filename='example.csv')
     
     Standard output location: data_files
     
+    Arguments:
+        IDs {list} -- Ids for entries.
+        col_titles {list} -- Titles for each column.
+    
     Keyword Arguments:
-        new_filename {str} -- Filename of new file. (example: Liberty_Trans_3.csv) (default: {default})
+        filename {str} -- Filename of new file. (example: data_files/Liberty_Trans_3.csv) (default: {default})
     """
+    # Error checks
+    if type(IDs) != list:
+        print('[write_csv] IDs needs to be a list. IDs recieved an arg of type: ' + type(IDs))
+        exit(-1)
+    if len(col_titles) != (len(args) + 1):
+        print('[write_csv] The number of column titles and columns are not the same.')
+        exit(-1)
     for i in args:
-        if type(i) != list:
-            print('[write_csv] Each argument passed in needs to a 1D list. ' +
+        if type(i) != dict:
+            print('[write_csv] Each argument passed in needs to a dict. ' +
                   'A list was of type: ' + type(i) + '\n' +
-                  'Example usage: write_csv(list1, list2, list3, new_filename="example.csv")')
+                  'Example usage: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, new_filename="example.csv")')
             exit(-1)
     
+    # Find suitable filename for new file
     filename = ''
-    if new_filename == 'default':    
+    if not kwargs:    
         count = 0
         file_name_found = False
         while not file_name_found:
@@ -276,8 +287,20 @@ def write_csv(*args, new_filename='default'):
                 filename = attempted_filename
                 file_name_found = True
     else:
-        filename = new_filename
-        
+        for key, value in kwargs.items():
+            if key == 'filename':
+                filename = value
+
+    # Write lines
+    nl = '\n'
     with open(filename, 'w') as file:
-        for line in dataset:
-            file.write(','.join(line) + '\n')
+        file.write(','.join(col_titles) + nl)
+        for iden in IDs:
+            iden_values = list()
+            for col in args:
+                try:
+                    iden_values.append(str(col[iden]))
+                except KeyError:
+                    iden_values.append('')
+            iden_values.insert(0, str(iden))
+            file.write(','.join(iden_values) + nl)
