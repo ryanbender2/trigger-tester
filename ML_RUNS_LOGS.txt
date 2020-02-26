@@ -1,5 +1,4 @@
 SVC:
-0.8252113376429637 - accuracy_score
 
 [[26542     7] - confusion_matrix
  [ 5617    10]]
@@ -13,6 +12,3 @@ classification_report
     accuracy                      0.8252113     32176
    macro avg  0.7067860 0.5007567 0.4538737     32176
 weighted avg  0.7838719 0.8252113 0.7466947     32176
-
-f1_score
-0.7466946774585811

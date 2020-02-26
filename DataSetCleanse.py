@@ -8,7 +8,7 @@ import random
 
 class DataSetCleanse(object):
     """DataSet Work.
-    
+
     Argument:
         {str} -- path to csv file.
     """
@@ -243,33 +243,41 @@ class DataSetCleanse(object):
         print(string)
 
 
-def write_csv(dataset, filename, **args):
-    """Write CSV.
+def write_csv(*args, new_filename='default'):
+    """Write CSV out.
     
-    Arguments:
-        dataset {list} -- list formatted for csv output.
-        filename {str} -- File path for csv out.
+    How it works: Pass in 1D lists to be written to file. Each list passed in is considered
+      a new column. Pass in each list in the order desired. The first element
+      in the list is considered the column title.
+      An example call would look like this: write_csv(list1, list2, list3, new_filename='example.csv')
+    
+    Standard output location: data_files
+    
+    Keyword Arguments:
+        new_filename {str} -- Filename of new file. (example: Liberty_Trans_3.csv) (default: {default})
     """
+    for i in args:
+        if type(i) != list:
+            print('[write_csv] Each argument passed in needs to a 1D list. ' +
+                  'A list was of type: ' + type(i) + '\n' +
+                  'Example usage: write_csv(list1, list2, list3, new_filename="example.csv")')
+            exit(-1)
+    
+    filename = ''
+    if new_filename == 'default':    
+        count = 0
+        file_name_found = False
+        while not file_name_found:
+            attempted_filename = 'data_files/Generated_CSV({}).csv'.format(str(count))
+            try:
+                t = open(attempted_filename)
+                count += 1
+            except FileNotFoundError:
+                filename = attempted_filename
+                file_name_found = True
+    else:
+        filename = new_filename
+        
     with open(filename, 'w') as file:
         for line in dataset:
             file.write(','.join(line) + '\n')
-
-   
-
-
-
-# dataset_path = 'C:/users/ryan/Desktop/Liberty_Transaction_Analysis_3.csv'
-# new_dataset = 'data_files/new_dataset.csv'
-
-
-# for trans in __data:
-#     if trans[1] == '0':
-#         full_data.append([trans[0], '1'])
-#     else:
-#         full_data.append([trans[0], '0'])
-# account_statuses = dict(map(__acc_status__, __data))
-
-# for acc in unique_account_nums:
-#     full_data.append([str(account_num_count[acc]), account_statuses[acc]])
-
-# write_csv(full_data, second_dataset)
