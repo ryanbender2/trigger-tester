@@ -289,7 +289,12 @@ def write_csv(IDs, col_titles, *args, **kwargs):
     else:
         for key, value in kwargs.items():
             if key == 'filename':
-                filename = value
+                try:
+                    t = open(value)
+                    print('[write_csv] Attempted write to existing file.')
+                    exit(-1)
+                except FileNotFoundError:
+                    filename = value
 
     # Write lines
     nl = '\n'

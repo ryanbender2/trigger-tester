@@ -31,4 +31,4 @@ s = {
   4: 'dude'
 }
 
-write_csv(ids, titles, t, s)
+write_csv(ids, titles, t, s, filename='data_files/gg.csv')
