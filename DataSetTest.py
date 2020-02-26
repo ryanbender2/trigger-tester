@@ -1,6 +1,4 @@
-"""
-  Testing module for the DataSet class.
-"""
+"""Testing module for the DataSet class."""
 
 from DataSetCleanse import DataSetCleanse
 from DataSetCleanse import write_csv
@@ -8,12 +6,8 @@ import random
 import DataSet
 from time import process_time
 
-# start_t = process_time()
-# test = DataSetCleanse('C:/Users/ryan/Desktop/CSIS 484/Liberty_Transaction_Analysis_3.csv')
-# end_t = process_time()
-# print('run time was {0} seconds.'.format(str(float(end_t - start_t))) + '\n\n')
 
-# test.print_example_record()
+test = DataSetCleanse('C:/Users/ryan/Desktop/CSIS 484/Liberty_Transaction_Analysis_3.csv')
 
 ids = [1, 2, 3, 4]
 titles = ['id', 'wow', 'nice']
