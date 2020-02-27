@@ -309,3 +309,19 @@ def write_csv(IDs, col_titles, *args, **kwargs):
                     iden_values.append('')
             iden_values.insert(0, str(iden))
             file.write(','.join(iden_values) + nl)
+
+
+def chop_csv(self, csv_filepath, nrows):
+    """Shrink CSV to desired lenght. Typically used for testing and debugging.
+    
+    Arguments:
+        csv_filepath {str} -- Path to CSV file.
+        nrows {int} -- Number of rows to be written.
+    """
+    new_filename = csv_filepath + '_' + str(nrows) + '_rows.csv'
+    df = pd.read_csv(csv_filepath, dtype=str)
+    dataset = [list(row) for row in df.values]
+    dataset.insert(0, [i for i in df.columns])
+    with open(new_filename, 'w') as file:
+        for line in dataset:
+            file.write(line + '\n')
