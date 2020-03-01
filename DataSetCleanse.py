@@ -248,7 +248,7 @@ def write_csv(IDs, col_titles, *args, **kwargs):
     
     How it works: Lists of unique identifiers and column titles are passed in along with dictionaries of each column.
       All dictionary keys should be in IDs.
-      An example call would look like this: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, new_filename='example.csv')
+      An example call would look like this: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, filename='example.csv')
     
     Standard output location: data_files
     
@@ -270,7 +270,7 @@ def write_csv(IDs, col_titles, *args, **kwargs):
         if type(i) != dict:
             print('[write_csv] Each argument passed in needs to a dict. ' +
                   'A list was of type: ' + type(i) + '\n' +
-                  'Example usage: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, new_filename="example.csv")')
+                  'Example usage: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, filename="example.csv")')
             exit(-1)
     
     # Find suitable filename for new file
