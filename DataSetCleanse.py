@@ -232,8 +232,8 @@ class DataSetCleanse(object):
             
         for i in range(len(values)):
             spacesCat = ' ' * (longestCat - len(categories[i]) + 1)
-            spacesVal = ' ' * (longestVal - len(values[i]) + 1)
-            SB = '| ' + categories[i] + spacesCat + '| ' + values[i] + spacesVal + '|\n' + line + '\n'
+            spacesVal = ' ' * (longestVal - len(str(values[i])) + 1)
+            SB = '| ' + categories[i] + spacesCat + '| ' + str(values[i]) + spacesVal + '|\n' + line + '\n'
             contents += SB
 
         string += recordNum
@@ -247,8 +247,8 @@ def write_csv(IDs, col_titles, *args, **kwargs):
     """Write CSV out.
     
     How it works: Lists of unique identifiers and column titles are passed in along with dictionaries of each column.
-      All dictionary keys should be in IDs.
-      An example call would look like this: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, filename='example.csv')
+    All dictionary keys should be in IDs.
+    An example call would look like this: write_csv(Account_nbrs, col_titles, dict1, dict2, dict3, filename='example.csv')
     
     Standard output location: data_files
     
@@ -311,7 +311,7 @@ def write_csv(IDs, col_titles, *args, **kwargs):
             file.write(','.join(iden_values) + nl)
 
 
-def chop_csv(self, csv_filepath, nrows):
+def chop_csv(csv_filepath, nrows):
     """Shrink CSV to desired lenght. Typically used for testing and debugging.
     
     Arguments:
