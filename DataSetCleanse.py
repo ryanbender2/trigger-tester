@@ -5,6 +5,7 @@ Also includes funtion for writing csv out.
 
 import pandas as pd
 import random
+import progressbar
 
 class DataSetCleanse(object):
     """DataSet Work.
@@ -30,8 +31,22 @@ class DataSetCleanse(object):
             {list} -- csv file.
         """
         df = pd.read_csv(filename, dtype=str)
-        dataset = [list(row) for row in df.values]
+        
+        # start progress bar
+        bar = progressbar.ProgressBar(maxval=len(df.values), \
+            widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+        bar.start()
+        
+        # create dataset
+        dataset = list()
+        count = 0
+        for row in df.values:
+            dataset.append(list(row))
+            count += 1
+            bar.update(count)
+
         dataset.insert(0, [i for i in df.columns])
+        bar.finish()
         return dataset
 
 
