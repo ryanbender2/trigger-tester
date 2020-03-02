@@ -241,6 +241,18 @@ class DataSetCleanse(object):
         string += contents
 
         print(string)
+    
+    
+    def describe(self):
+        """Describe datset, shows number of rows and columns.
+        
+        Returns:
+            {str} -- Description of dataset.
+        """
+        num_cols = len(self.getTitles())
+        num_rows = len(self.getDataSet(column_titles=False))
+        desc = '{0} rows x {1} columns'.format(str(num_rows), str(num_cols))
+        return desc
 
 
 def write_csv(IDs, col_titles, *args, **kwargs):
