@@ -10,26 +10,9 @@ from time import process_time
 
 test = DataSetCleanse('C:/Users/ryanb/Desktop/data_cbt/CBT_Transactions_oct_1st-dec_31st_2019.csv')
 
-titles = test.getTitles()
-print(str(titles))
-print('\n')
-test.print_example_record()
-print(str(len(test.getDataSet(column_titles=False))))
+ids = list(set(test.getColumn('Account Nbr')))
+titles = ['Account Nbr', 'Total Transactions', 'Account Status']
+total_trans = test.num_transactions_of_each_account()
+acc_stat = test.encoded_account_statuses()
 
-# ids = [1, 2, 3, 4]
-# titles = ['id', 'wow', 'nice']
-
-# t = {
-#   1: '10',
-#   2: '20',
-#   3: '30'
-# }
-
-# s = {
-#   1: '30',
-#   2: '20',
-#   3: '10',
-#   4: 'dude'
-# }
-
-# write_csv(ids, titles, t, s, filename='data_files/gg.csv')
+write_csv(ids, titles, total_trans, acc_stat, filename='data_files/October-December_Transactions.csv')

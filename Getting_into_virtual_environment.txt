@@ -1,1 +1,1 @@
-run the script .\venv\Scripts\activate
+run the script .\env\Scripts\activate
