@@ -11,17 +11,20 @@ class DataSetCleanse(object):
     """DataSet Work.
 
     Argument:
-        {str} -- path to csv file.
+        {str} -- Path to csv file.
+    
+    Keyword Arguments:
+        status_bar {bool} -- Optional status bar
     """
     
-    def __init__(self, filepath):
+    def __init__(self, filepath, status_bar=False):
         """Init class."""
-        __data = self.__load_csv__(filepath)
+        __data = self.__load_csv__(filepath, status_bar)
         self.__titles = __data[0]
         self.__dataset = __data[1:]
     
     
-    def __load_csv__(self, filename):
+    def __load_csv__(self, filename, sb_option):
         """Load CSV File.
         
         Arguments:
@@ -32,21 +35,25 @@ class DataSetCleanse(object):
         """
         df = pd.read_csv(filename, dtype=str)
         
-        # start progress bar
-        bar = progressbar.ProgressBar(maxval=len(df.values), \
-            widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
-        bar.start()
+        if sb_option:
+            # start progress bar
+            print('Loading file...')
+            bar = progressbar.ProgressBar(maxval=len(df.values), \
+                widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+            bar.start()
+            count = 0
         
         # create dataset
         dataset = list()
-        count = 0
         for row in df.values:
             dataset.append(list(row))
-            count += 1
-            bar.update(count)
+            if sb_option:
+                count += 1
+                bar.update(count)
 
         dataset.insert(0, [i for i in df.columns])
-        bar.finish()
+        if sb_option:
+            bar.finish()
         return dataset
 
 
@@ -182,25 +189,44 @@ class DataSetCleanse(object):
         exit(-1)
     
     
-    def num_transactions_of_each_account(self, title_of_acc_nbr='Account Nbr'):
+    def num_transactions_of_each_account(self, title_of_acc_nbr='Account Nbr', status_bar=False):
         """Count of the number of transactions each account has.
         
         Keyword Arguments:
             title_of_acc_nbr {str} -- Title of column holding account numbers (default: {Account Nbr})
+            status_bar {bool} -- Optional status bar
         
         Returns:
             Counts {dict} -- Dict with Keys = Account Number and Values = Amount of Transactions
         """
         account_nums = self.getColumn(title_of_acc_nbr)
         unique_account_nums = list(set(account_nums))
-        account_num_count = dict(map(lambda x: [x, account_nums.count(x)], unique_account_nums))
+        
+        if status_bar:
+            # start progress bar
+            print('Gathering and counting number of transactions of each account...')
+            bar = progressbar.ProgressBar(maxval=len(unique_account_nums), \
+                widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+            bar.start()
+            count = 0
+        
+        account_num_count = dict()
+        for acc in unique_account_nums:
+            account_num_count[acc] = account_nums.count(acc)
+            if status_bar:
+                count += 1
+                bar.update(count)
+        
+        if status_bar:
+            bar.finish()
         return account_num_count
     
     
     def encoded_account_statuses(self, flip_encoding=False,
                                  account_num_col_title='Account Nbr',
                                  account_status_col_title='Account Status Cd',
-                                 closed_account_statuses=['APPR', 'DORM', 'NPFM', 'IACT', 'CLS', 'CO', 'CWB']):
+                                 closed_account_statuses=['APPR', 'DORM', 'NPFM', 'IACT', 'CLS', 'CO', 'CWB'],
+                                 status_bar=False):
         """Encode account statuses.
         
         Keyword Arguments:
@@ -208,6 +234,7 @@ class DataSetCleanse(object):
             account_num_col_title {str} -- Title of account number column (default: {Account Nbr})
             account_status_col_title {str} --  Title of account status column (default: {Account Status Cd})
             closed_account_statuses {list} -- Account statuses denoted as closed. (default: {APPR, DORM, NPFM, IACT, CLS, CO, CWB})
+            status_bar {bool} -- Optional status bar
         
         Returns:
             statuses {dict} -- Keys = Account numbers, Values = Account statuses
@@ -219,9 +246,24 @@ class DataSetCleanse(object):
         except ValueError as err:
             print('[encoded_account_statuses] Unable to find account number or status listed: ' + str(err))
             exit(-1)
+        
+        if status_bar:
+            # start progress bar
+            print('Gathering and encoding account statuses...')
+            bar = progressbar.ProgressBar(maxval=len(self.__dataset), \
+                widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+            bar.start()
+            count = 0
+        
         for trans in self.__dataset:
             info = self.__acc_status__(trans, flip_encoding, acc_num_idx, acc_stat_idx, closed_account_statuses)
             statuses[info[0]] = info[1]
+            if status_bar:
+                count += 1
+                bar.update(count)
+        
+        if status_bar:
+            bar.finish()
         return statuses
     
 
@@ -268,6 +310,48 @@ class DataSetCleanse(object):
         num_rows = len(self.getDataSet(column_titles=False))
         desc = '{0} rows x {1} columns'.format(str(num_rows), str(num_cols))
         return desc
+    
+    
+    def make_dict(self, keys, values, status_bar=False):
+        """Create dictionary from dataset.
+        
+        Arguments:
+            keys {str} -- Column title for keys
+            values {str} -- Column title for values
+        
+        Keyword Arguments:
+            status_bar {bool} -- Optional status bar
+        
+        Returns:
+            {dict} -- Dictionary specified
+        """
+        if keys not in self.__titles:
+            print('[make_dict] Unable to locate selected column for keys.')
+            exit(-1)
+        if values not in self.__titles:
+            print('[make_dict] Unable to locate selected column for values.')
+            exit(-1)
+
+        new_dict = dict()
+        select_keys = self.getColumn(keys)
+        select_values = self.getColumn(values)
+        
+        if status_bar:
+            # start progress bar
+            print('Creating dictionary ({0} = {1})...'.format(keys, values))
+            bar = progressbar.ProgressBar(maxval=len(select_keys), \
+                widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+            bar.start()
+            count = 0
+        
+        for i in range(len(select_keys)):
+            new_dict[select_keys[i]] = select_values[i]
+            if status_bar:
+                bar.update(i + 1)
+        
+        if status_bar:
+            bar.finish()
+        return new_dict
 
 
 def write_csv(IDs, col_titles, *args, **kwargs):
