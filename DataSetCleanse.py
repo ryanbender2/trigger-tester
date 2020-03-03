@@ -14,7 +14,7 @@ class DataSetCleanse(object):
         {str} -- Path to csv file.
     
     Keyword Arguments:
-        status_bar {bool} -- Optional status bar
+        status_bar {bool} -- Optional status bar (default: {False})
     """
     
     def __init__(self, filepath, status_bar=False):
@@ -194,7 +194,7 @@ class DataSetCleanse(object):
         
         Keyword Arguments:
             title_of_acc_nbr {str} -- Title of column holding account numbers (default: {Account Nbr})
-            status_bar {bool} -- Optional status bar
+            status_bar {bool} -- Optional status bar (default: {False})
         
         Returns:
             Counts {dict} -- Dict with Keys = Account Number and Values = Amount of Transactions
@@ -234,7 +234,7 @@ class DataSetCleanse(object):
             account_num_col_title {str} -- Title of account number column (default: {Account Nbr})
             account_status_col_title {str} --  Title of account status column (default: {Account Status Cd})
             closed_account_statuses {list} -- Account statuses denoted as closed. (default: {APPR, DORM, NPFM, IACT, CLS, CO, CWB})
-            status_bar {bool} -- Optional status bar
+            status_bar {bool} -- Optional status bar (default: {False})
         
         Returns:
             statuses {dict} -- Keys = Account numbers, Values = Account statuses
@@ -320,34 +320,32 @@ class DataSetCleanse(object):
             values {str} -- Column title for values
         
         Keyword Arguments:
-            status_bar {bool} -- Optional status bar
+            status_bar {bool} -- Optional status bar (default: {False})
         
         Returns:
             {dict} -- Dictionary specified
         """
-        if keys not in self.__titles:
-            print('[make_dict] Unable to locate selected column for keys.')
+        try:
+            keys_idx = self.__titles.index(keys)
+            values_idx = self.__titles.index(values)
+        except ValueError as err:
+            print('[make_dict] Unable to find keys or values column: ' + str(err))
             exit(-1)
-        if values not in self.__titles:
-            print('[make_dict] Unable to locate selected column for values.')
-            exit(-1)
-
-        new_dict = dict()
-        select_keys = self.getColumn(keys)
-        select_values = self.getColumn(values)
         
         if status_bar:
             # start progress bar
             print('Creating dictionary ({0} = {1})...'.format(keys, values))
-            bar = progressbar.ProgressBar(maxval=len(select_keys), \
+            bar = progressbar.ProgressBar(maxval=len(self.__dataset), \
                 widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
             bar.start()
             count = 0
         
-        for i in range(len(select_keys)):
-            new_dict[select_keys[i]] = select_values[i]
+        new_dict = dict()
+        for row in self.__dataset:
+            new_dict[row[keys_idx]] = row[values_idx]
             if status_bar:
-                bar.update(i + 1)
+                count += 1
+                bar.update(count)
         
         if status_bar:
             bar.finish()
@@ -369,6 +367,7 @@ def write_csv(IDs, col_titles, *args, **kwargs):
     
     Keyword Arguments:
         filename {str} -- Filename of new file. (example: data_files/Liberty_Trans_3.csv) (default: {default})
+        status_bar {bool} -- Optional status bar (default: {False})
     """
     # Error checks
     if type(IDs) != list:
@@ -386,6 +385,7 @@ def write_csv(IDs, col_titles, *args, **kwargs):
     
     # Find suitable filename for new file
     filename = ''
+    status_bar = False
     if not kwargs:    
         count = 0
         file_name_found = False
@@ -406,12 +406,25 @@ def write_csv(IDs, col_titles, *args, **kwargs):
                     exit(-1)
                 except FileNotFoundError:
                     filename = value
+            if key == 'status_bar':
+                status_bar = value
 
+    if status_bar:
+        # start progress bar
+        print('Writing csv out ({})...'.format(filename))
+        bar = progressbar.ProgressBar(maxval=len(IDs), \
+            widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+        bar.start()
+        count = 0
+    
     # Write lines
     nl = '\n'
     with open(filename, 'w') as file:
         file.write(','.join(col_titles) + nl)
         for iden in IDs:
+            if status_bar:
+                count += 1
+                bar.update(count)
             iden_values = list()
             for col in args:
                 try:
@@ -420,6 +433,8 @@ def write_csv(IDs, col_titles, *args, **kwargs):
                     iden_values.append('')
             iden_values.insert(0, str(iden))
             file.write(','.join(iden_values) + nl)
+    if status_bar:
+        bar.finish()
 
 
 def chop_csv(csv_filepath, nrows):
