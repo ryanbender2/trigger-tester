@@ -6,6 +6,7 @@ Also includes funtion for writing csv out.
 import pandas as pd
 import random
 import progressbar
+from collections import Counter
 
 class DataSetCleanse(object):
     """DataSet Work.
@@ -194,32 +195,13 @@ class DataSetCleanse(object):
         
         Keyword Arguments:
             title_of_acc_nbr {str} -- Title of column holding account numbers (default: {Account Nbr})
-            status_bar {bool} -- Optional status bar (default: {False})
         
         Returns:
             Counts {dict} -- Dict with Keys = Account Number and Values = Amount of Transactions
         """
         account_nums = self.getColumn(title_of_acc_nbr)
-        unique_account_nums = list(set(account_nums))
-        
-        if status_bar:
-            # start progress bar
-            print('Gathering and counting number of transactions of each account...')
-            bar = progressbar.ProgressBar(maxval=len(unique_account_nums), \
-                widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
-            bar.start()
-            count = 0
-        
-        account_num_count = dict()
-        for acc in unique_account_nums:
-            account_num_count[acc] = account_nums.count(acc)
-            if status_bar:
-                count += 1
-                bar.update(count)
-        
-        if status_bar:
-            bar.finish()
-        return account_num_count
+        count_of_account_nums = dict(Counter(account_nums))
+        return count_of_account_nums
     
     
     def encoded_account_statuses(self, flip_encoding=False,

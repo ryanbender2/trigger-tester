@@ -37,19 +37,26 @@ for url in urls:
     model = LogisticRegression()
     model.fit(X_train, Y_train)
     predictions = model.predict(X_validation)
+    float_predictions = model.predict_proba(X_validation)[:, 1]
 
-    # Evaluate predictions
-    print(accuracy_score(Y_validation, predictions))
-    print(confusion_matrix(Y_validation, predictions))
-    print(classification_report(Y_validation, predictions, digits=7))
     
-    fig = plt.figure(figsize=(10,5))
-    xlabel = 'Total Transactions'
-    ylabel = 'Account Status'
-    plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
-    plt.plot(X_validation, Y_validation, color='red')
-    plt.show()
+    # Evaluate predictions
+    # print(accuracy_score(Y_validation, predictions))
+    # print(confusion_matrix(Y_validation, predictions))
+    # print(classification_report(Y_validation, predictions, digits=7))
+    
+    # with open('C:/Users/ryan/Desktop/predicts001.csv', 'w') as file:
+    #     file.write('X Value,Prediction\n')
+    #     for i in range(len(float_predictions)):
+    #         file.write('{0},{1}\n'.format(str(X_validation[i][0]), str(float_predictions[i])))
+
+    # xlabel = 'Model Output'
+    # ylabel = 'Probablity (0/1)'
+    # plt.xlabel(xlabel)
+    # plt.ylabel(ylabel)
+    # plt.scatter(X_validation, float_predictions)
+    # plt.axis([2, 346, 0, 1])
+    # plt.show()
 
 # for i in range(len(X_validation)):
 #     print("X=%s, Predicted=%s" % (X_validation[i], predictions[i]))
