@@ -2,7 +2,6 @@
 
 import tkinter as tk
 from time import sleep
-from DataSetCleanse import load_csv
 
 class Application(tk.Frame):
     """Main app class.

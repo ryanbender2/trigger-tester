@@ -52,14 +52,6 @@ for url in urls:
     print()
 
 
-
-
-
-
-
-
-
-
 # xlabel = 'Model Output'
 # ylabel = 'Probablity (0/1)'
 # plt.xlabel(xlabel)
