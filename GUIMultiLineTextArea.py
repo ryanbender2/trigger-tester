@@ -14,6 +14,12 @@ class TextAreaDemo(EasyFrame):
 
         self.outputArea = self.addTextArea(' ', row=4, column=0, columnspan=2, width=50, height=15)
         self.compute = self.addButton(text='Compute', row=3, column=0, columnspan=2, command=self.compute)
+        self.cb = self.addCheckbutton('something', 7, 0)
+        self.addButton('print', 7, 1, command=self.pri)
+    
+    
+    def pri(self):
+        print(str(self.cb.isChecked()))
 
     def compute(self):
         startBalance = self.amount.getNumber()

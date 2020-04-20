@@ -145,7 +145,7 @@ class DataSetCleanse(object):
             column_titles {bool} -- Set to false to not include titles at top of dataset. (default: {True})
         
         Returns:
-            datset {list} -- 2D list of dataset.
+            dataset {list} -- 2D list of dataset.
         """
         if column_titles:
             data = list(self.__dataset)
