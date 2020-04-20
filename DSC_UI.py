@@ -22,9 +22,9 @@ class DataSetCleanse(EasyFrame):
         self.outputArea = self.addTextArea(' ', row=4, column=0, columnspan=3, width=50, height=15)
         self.outputArea["state"] = "disabled"
         
-        # self.DSC_dir = [i for i in dir(DSC) if not i.startswith('_')]
-        # for col in range(len(self.DSC_dir)):
-        #     self.addButton(text=self.DSC_dir[col], row=3, column=col)
+        self.DSC_dir = [i for i in dir(DSC) if not i.startswith('_')]
+        for col in range(len(self.DSC_dir)):
+            self.addButton(text=self.DSC_dir[col], row=3, column=col)
     
     def load_csv(self):
         # C:\\Users\\ryanb\\Desktop\\CBT_Transactions_january-march_2019.csv
