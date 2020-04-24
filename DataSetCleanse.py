@@ -18,14 +18,14 @@ class DataSetCleanse(object):
         status_bar {bool} -- Optional status bar (default: {False})
     """
     
-    def __init__(self, filepath, status_bar=False):
+    def __init__(self, filepath):
         """Init class."""
-        __data = self.__load_csv__(filepath, status_bar)
+        __data = self.__load_csv__(filepath)
         self.__titles = __data[0]
         self.__dataset = __data[1:]
     
     
-    def __load_csv__(self, filename, sb_option):
+    def __load_csv__(self, filename):
         """Load CSV File.
         
         Arguments:
@@ -34,27 +34,16 @@ class DataSetCleanse(object):
         Returns:
             {list} -- csv file.
         """
+        # load file to pandas dataframe
         df = pd.read_csv(filename, dtype=str)
-        
-        if sb_option:
-            # start progress bar
-            print('Loading file...')
-            bar = progressbar.ProgressBar(maxval=len(df.values), \
-                widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
-            bar.start()
-            count = 0
-        
+
         # create dataset
         dataset = list()
         for row in df.values:
-            dataset.append(list(row))
-            if sb_option:
-                count += 1
-                bar.update(count)
-
-        dataset.insert(0, [i for i in df.columns])
-        if sb_option:
-            bar.finish()
+            stripped_row = [str(i).strip() for i in row]
+            dataset.append(stripped_row)
+        dataset.insert(0, df.columns.tolist())
+        
         return dataset
 
 
@@ -96,8 +85,7 @@ class DataSetCleanse(object):
         try:
             column_idx = self.__titles.index(column)
         except ValueError as err:
-            print('[str_column_to_float] Unable to find column listed: ' + str(err))
-            exit(-1)
+            raise IndexError('Unable to find column listed: %s' % str(err))
         for row in self.__dataset:
             row[column_idx] = float(row[column_idx].strip().replace(',', ''))
     
@@ -107,24 +95,14 @@ class DataSetCleanse(object):
         
         Arguments:
             column {str} -- Title of column to convert.
-        
-        Returns:
-            {dict} -- Converted values with keys.
         """
         try:
             column_idx = self.__titles.index(column)
         except ValueError as err:
-            print('[str_column_to_int] Unable to find column listed: ' + str(err))
-            exit(-1)
-        dataset = self.__dataset
-        class_values = [row[column_idx] for row in dataset]
-        unique = set(class_values)
-        lookup = dict()
-        for i, value in enumerate(unique):
-            lookup[value] = i
-        for row in dataset:
-            row[column_idx] = lookup[row[column_idx]]
-        return lookup
+            raise IndexError('Unable to find column listed: %s' % str(err))
+        for row in self.__dataset:
+            row[column_idx] = int(row[column_idx].replace(',', ''))
+
     
     
     def getTitles(self):
