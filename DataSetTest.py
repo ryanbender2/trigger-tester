@@ -12,6 +12,7 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 import json
 from multiprocessing import Pool
+import math
 
 """
 # Getting dictionary
@@ -63,7 +64,7 @@ def main():
         'CBT_Transactions_july-october_2019.csv',
         'CBT_Transactions_october-december_2019.csv'
     ]
-    for path in filepaths_2019: files_2019.append(DataSetCleanse('C:\\Users\\ryanb\\Desktop\\data_cbt\\%s' % path))
+    for path in filepaths_2019: files_2019.append(DataSetCleanse('C:\\Users\\ryan\\Desktop\\data_cbt\\%s' % path))
 
     print('formating datasets...')
     one_account_list = list()
@@ -106,12 +107,12 @@ def main():
 
 def pr():
     # Getting dictionary
-    with open('results.json', 'r') as f:
-        person_dict = json.load(f)
+    # with open('results.json', 'r') as f:
+    #     results = json.load(f)
 
-    # Pretty Printing JSON string back
-    print(json.dumps(person_dict, indent=2))
+    df = pd.read_json(r'results.json')
+    df.to_csv(r'test_run.csv', index=None)
     
 if __name__ == "__main__":
-    main()
-    # pr()
+    # main()
+    pr()
