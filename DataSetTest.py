@@ -64,54 +64,71 @@ def main():
         'CBT_Transactions_july-october_2019.csv',
         'CBT_Transactions_october-december_2019.csv'
     ]
-    for path in filepaths_2019: files_2019.append(DataSetCleanse('C:\\Users\\ryan\\Desktop\\data_cbt\\%s' % path))
+    for path in filepaths_2019: files_2019.append(DataSetCleanse('C:\\Users\\ryanb\\Desktop\\data_cbt\\%s' % path))
 
-    print('formating datasets...')
     one_account_list = list()
     for i in files_2019:
-        i.str_column_to_float('TRANAMT')
-        file_data = i.getDataSet(column_titles=False)
-        one_account_list.append(file_data)
+        acc_stat = i.encoded_account_statuses(account_status_col_title='ACCTSTATCD')
+        one_account_list.append(acc_stat)
 
-    print('gathering data to one list...')
-    dataset = list() # all transactions in 2019
+    dataset = dict() # account statuses
     for i in one_account_list:
-        for row in i: dataset.append(row)
+        for row in i:
+            dataset[row] = i[row]
 
-    print('separating dataset by accounts...')
-    account_transactions_sep = dict()
-    for row in dataset:
-        try:
-            account_transactions_sep[row[0]].append(row)
-        except KeyError:
-            account_transactions_sep[row[0]] = []
-            account_transactions_sep[row[0]].append(row)
-
-    stats = dict()
-    account_numbers = str(len(account_transactions_sep))
-    count = 1
-    print('Starting search for Direct Deposit on %s accounts...' % account_numbers)
+    with open('results.json', 'r') as f:
+        results = json.load(f)
     
-    with Pool(6) as p:
-        check_results = p.map(check_for_dir_dep, account_transactions_sep.values())
-        keys = list(account_transactions_sep.keys())
-        for account_number in range(len(account_transactions_sep)):
-            if check_results[account_number]:
-                acc_stats = dict()
-                acc_stats['direct deposit triggers found'] = len(check_results[account_number])
-                acc_stats['triggers'] = check_results[account_number]
-                stats[keys[account_number]] = acc_stats
+    for acc in results:
+        try:
+            results[acc]["Account Status"] = dataset[acc]
+        except KeyError:
+            pass
+    
+    with open('results_added.json', 'w') as fp:
+        json.dump(results, fp)
+    
+    # print('separating dataset by accounts...')
+    # account_transactions_sep = dict()
+    # for row in dataset:
+    #     try:
+    #         account_transactions_sep[row[0]].append(row)
+    #     except KeyError:
+    #         account_transactions_sep[row[0]] = []
+    #         account_transactions_sep[row[0]].append(row)
 
-    with open('results.json', 'w') as fp:
-        json.dump(stats, fp)
+    # stats = dict()
+    # account_numbers = str(len(account_transactions_sep))
+    # count = 1
+    # print('Starting search for Direct Deposit on %s accounts...' % account_numbers)
+    
+    # with Pool(6) as p:
+    #     check_results = p.map(check_for_dir_dep, account_transactions_sep.values())
+    #     keys = list(account_transactions_sep.keys())
+    #     for account_number in range(len(account_transactions_sep)):
+    #         if check_results[account_number]:
+    #             acc_stats = dict()
+    #             acc_stats['direct deposit triggers found'] = len(check_results[account_number])
+    #             acc_stats['triggers'] = check_results[account_number]
+    #             stats[keys[account_number]] = acc_stats
+
+    # with open('results_added.json', 'w') as fp:
+    #     json.dump(stats, fp)
 
 def pr():
+    
+    num_dd = dict()
     # Getting dictionary
-    # with open('results.json', 'r') as f:
-    #     results = json.load(f)
+    with open('direct_deposit_triggers.json', 'r') as f:
+        results = json.load(f)
 
-    df = pd.read_json(r'results.json')
-    df.to_csv(r'test_run.csv', index=None)
+    for acc in results:
+        status = results[acc]["Account Status"]
+        amm = results[acc]["direct deposit triggers found"]
+        if status == '0' and amm > 5:
+            num_dd[acc] = results[acc]
+    
+    print(len(num_dd))
     
 if __name__ == "__main__":
     # main()
