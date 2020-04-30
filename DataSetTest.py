@@ -25,6 +25,14 @@ print(json.dumps(person_dict, indent=4))
 
 
 def check_for_dir_dep(one_account_list: list):
+    """Based on an account's data, dirive whether or not the account has a Direct Deposit.
+
+    Arguments:
+        one_account_list {list} -- All of the client's transaction data.
+
+    Returns:
+        {list} -- Summary of data found.
+    """
     dd_catch_reasons = list()
     id_counter = 0
     date_col = 14
@@ -125,10 +133,13 @@ def pr():
     for acc in results:
         status = results[acc]["Account Status"]
         amm = results[acc]["direct deposit triggers found"]
-        if status == '0' and amm > 5:
+        tran_amount_check = results[acc]["triggers"][0]["tran amount 2"]
+        
+        if status == '0' and amm > 5 and amm < 27 and tran_amount_check > 150:
             num_dd[acc] = results[acc]
     
     print(len(num_dd))
+    # print(json.dumps(num_dd, indent=4))
     
 if __name__ == "__main__":
     # main()

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface>
+  <object id="MainFrame" class="tk.Frame">
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <layout>
+      <property name="column">0</property>
+      <property name="propagate">True</property>
+      <property name="row">0</property>
+      <rows>
+        <row id="0">
+          <property name="minsize">0</property>
+          <property name="pad">0</property>
+        </row>
+      </rows>
+      <columns>
+        <column id="0">
+          <property name="pad">0</property>
+        </column>
+      </columns>
+    </layout>
+    <child>
+      <object id="Frame_1" class="tk.Frame">
+        <property name="height">200</property>
+        <property name="width">200</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">0</property>
+        </layout>
+        <child>
+          <object id="Button_1" class="tk.Button">
+            <property name="command">on_Button_1_clicked</property>
+            <property name="height">2</property>
+            <property name="text" translatable="yes">Getting Started</property>
+            <property name="width">20</property>
+            <bind sequence="" handler="" add="" />
+            <bind sequence="" handler="" add="" />
+            <layout>
+              <property name="column">0</property>
+              <property name="padx">15</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object id="Button_2" class="tk.Button">
+            <property name="command">on_Button_2_clicked</property>
+            <property name="height">2</property>
+            <property name="text" translatable="yes">Load CSV</property>
+            <property name="width">20</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="padx">15</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object id="Button_3" class="tk.Button">
+            <property name="command">on_Button_3_clicked</property>
+            <property name="height">2</property>
+            <property name="text" translatable="yes">Create Report</property>
+            <property name="width">20</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="padx">15</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">3</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object id="Button_4" class="tk.Button">
+            <property name="command">on_Button_4_clicked</property>
+            <property name="height">2</property>
+            <property name="text" translatable="yes">Run</property>
+            <property name="width">20</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="padx">15</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">4</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object id="Frame_2" class="tk.Frame">
+        <property name="height">200</property>
+        <property name="width">200</property>
+        <layout>
+          <property name="column">1</property>
+          <property name="propagate">True</property>
+          <property name="row">0</property>
+        </layout>
+        <child>
+          <object id="Label_1" class="tk.Label">
+            <property name="font">{Times New Roman} 24 {}</property>
+            <property name="padx">5</property>
+            <property name="pady">5</property>
+            <property name="text" translatable="yes">Welcome to FDP!</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="padx">5</property>
+              <property name="pady">5</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object id="Combobox_1" class="ttk.Combobox">
+            <layout>
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object id="Listbox_1" class="tk.Listbox">
+            <property name="borderwidth">3</property>
+            <property name="height">20</property>
+            <property name="width">75</property>
+            <layout>
+              <property name="column">1</property>
+              <property name="padx">20</property>
+              <property name="pady">20</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
