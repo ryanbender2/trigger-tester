@@ -25,7 +25,7 @@ print(json.dumps(person_dict, indent=4))
 
 
 def check_for_dir_dep(one_account_list: list):
-    """Based on an account's data, dirive whether or not the account has a Direct Deposit.
+    """Based on an account's data, derive whether or not the account has a Direct Deposit.
 
     Arguments:
         one_account_list {list} -- All of the client's transaction data.
