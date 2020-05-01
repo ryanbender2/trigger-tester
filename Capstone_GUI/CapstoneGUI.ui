@@ -117,7 +117,7 @@
           </object>
         </child>
         <child>
-          <object id="Combobox_1" class="ttk.Combobox">
+          <object id="Algorithm_Choice" class="ttk.Combobox">
             <layout>
               <property name="column">1</property>
               <property name="propagate">True</property>
@@ -126,14 +126,19 @@
           </object>
         </child>
         <child>
-          <object id="Listbox_1" class="tk.Listbox">
-            <property name="borderwidth">3</property>
-            <property name="height">20</property>
-            <property name="width">75</property>
+          <object id="Output_Box" class="tk.Text">
+            <property name="autoseparators">false</property>
+            <property name="cursor">arrow</property>
+            <property name="font">TkDefaultFont</property>
+            <property name="height">25</property>
+            <property name="takefocus">false</property>
+            <property name="width">110</property>
             <layout>
               <property name="column">1</property>
-              <property name="padx">20</property>
-              <property name="pady">20</property>
+              <property name="ipadx">5</property>
+              <property name="ipady">5</property>
+              <property name="padx">15</property>
+              <property name="pady">15</property>
               <property name="propagate">True</property>
               <property name="row">2</property>
             </layout>

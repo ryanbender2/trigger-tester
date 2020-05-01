@@ -67,10 +67,10 @@ def main():
     print('loading datasets...')
     files_2019 = list()
     filepaths_2019 = [
-        'CBT_Transactions_january-march_2019.csv',
-        'CBT_Transactions_april-june_2019.csv',
-        'CBT_Transactions_july-october_2019.csv',
-        'CBT_Transactions_october-december_2019.csv'
+        # 'CBT_Transactions_january-march_2019.csv',
+        # 'CBT_Transactions_april-june_2019.csv',
+        # 'CBT_Transactions_july-october_2019.csv',
+        # 'CBT_Transactions_october-december_2019.csv'
     ]
     for path in filepaths_2019: files_2019.append(DataSetCleanse('C:\\Users\\ryanb\\Desktop\\data_cbt\\%s' % path))
 
@@ -96,32 +96,32 @@ def main():
     with open('results_added.json', 'w') as fp:
         json.dump(results, fp)
     
-    # print('separating dataset by accounts...')
-    # account_transactions_sep = dict()
-    # for row in dataset:
-    #     try:
-    #         account_transactions_sep[row[0]].append(row)
-    #     except KeyError:
-    #         account_transactions_sep[row[0]] = []
-    #         account_transactions_sep[row[0]].append(row)
+    print('separating dataset by accounts...')
+    account_transactions_sep = dict()
+    for row in dataset:
+        try:
+            account_transactions_sep[row[0]].append(row)
+        except KeyError:
+            account_transactions_sep[row[0]] = []
+            account_transactions_sep[row[0]].append(row)
 
-    # stats = dict()
-    # account_numbers = str(len(account_transactions_sep))
-    # count = 1
-    # print('Starting search for Direct Deposit on %s accounts...' % account_numbers)
+    stats = dict()
+    account_numbers = str(len(account_transactions_sep))
+    count = 1
+    print('Starting search for Direct Deposit on %s accounts...' % account_numbers)
     
-    # with Pool(6) as p:
-    #     check_results = p.map(check_for_dir_dep, account_transactions_sep.values())
-    #     keys = list(account_transactions_sep.keys())
-    #     for account_number in range(len(account_transactions_sep)):
-    #         if check_results[account_number]:
-    #             acc_stats = dict()
-    #             acc_stats['direct deposit triggers found'] = len(check_results[account_number])
-    #             acc_stats['triggers'] = check_results[account_number]
-    #             stats[keys[account_number]] = acc_stats
+    with Pool(6) as p:
+        check_results = p.map(check_for_dir_dep, account_transactions_sep.values())
+        keys = list(account_transactions_sep.keys())
+        for account_number in range(len(account_transactions_sep)):
+            if check_results[account_number]:
+                acc_stats = dict()
+                acc_stats['direct deposit triggers found'] = len(check_results[account_number])
+                acc_stats['triggers'] = check_results[account_number]
+                stats[keys[account_number]] = acc_stats
 
-    # with open('results_added.json', 'w') as fp:
-    #     json.dump(stats, fp)
+    with open('results_added.json', 'w') as fp:
+        json.dump(stats, fp)
 
 def pr():
     
@@ -139,7 +139,7 @@ def pr():
             num_dd[acc] = results[acc]
     
     print(len(num_dd))
-    # print(json.dumps(num_dd, indent=4))
+    print(json.dumps(num_dd, indent=4))
     
 if __name__ == "__main__":
     # main()
