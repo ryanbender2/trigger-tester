@@ -61,21 +61,6 @@
           </object>
         </child>
         <child>
-          <object id="Button_3" class="tk.Button">
-            <property name="command">on_Button_3_clicked</property>
-            <property name="height">2</property>
-            <property name="text" translatable="yes">Create Report</property>
-            <property name="width">20</property>
-            <layout>
-              <property name="column">0</property>
-              <property name="padx">15</property>
-              <property name="pady">10</property>
-              <property name="propagate">True</property>
-              <property name="row">3</property>
-            </layout>
-          </object>
-        </child>
-        <child>
           <object id="Button_4" class="tk.Button">
             <property name="command">on_Button_4_clicked</property>
             <property name="height">2</property>
